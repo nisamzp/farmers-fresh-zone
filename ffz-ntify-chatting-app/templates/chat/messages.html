@@ -1,0 +1,64 @@
+{% extends 'chat/chat.html' %}
+{% block hide %}{% endblock %}
+{% block messages %}
+    {% for message in messages %}
+    {% if message.sender == request.user %}
+
+<div class="card-panel right" style="width: 75%; position: relative">
+    <div style="position: absolute; top: 0; left:3px; font-weight: bolder" class="title">You</div>
+    <div style="position: absolute; top: 0; right:3px; font-weight: bolder" class="title"> <input id=" {{message.id}} " type="submit" value="delete" class="button" /></div>
+    <!-- <div style="position: absolute; top: 0; right:3px; font-weight: bolder" class="titleupdate"> <input id=" {{message.id}} " type="submit" value="update" class="button" /></div> -->
+    {{ message }}
+</div>
+    {% else %}
+<div class="card-panel left blue lighten-5" style="width: 75%; position: relative">
+    <div style="position: absolute; top: 0; left:3px; font-weight: bolder" class="title">{{ message.sender }}</div>
+    {{ message }}
+</div>
+    {% endif %}
+    {% endfor %}
+{% load staticfiles %}
+<script src="{% static 'js/chat.js' %}"></script>
+<script>
+$(function () {
+    $('#user{{ receiver.id }}').addClass('active');
+    setInterval(receive,1000)
+    
+})
+
+
+
+
+$(".title").find(".button").click(function () {
+        event.preventDefault();
+        var message = $('#title');
+        var id = $(this).attr('id');
+        console.log(id);
+        console.log(message);
+        delete_message(id);
+        return false;
+});
+
+$(".titleupdate").find(".button").click(function () {
+        event.preventDefault();
+        var message = $('#title');
+        var id = $(this).attr('id');
+        console.log(id);
+        console.log(message);
+        update_message(id);
+        return false;
+});
+
+
+function display(id){
+
+console.log("The ID is "+id);
+}
+
+// $('#buttonID6').click(function() {
+//     console.log("hello");
+//       var id = $(this).attr('id');
+//       console.log(id);
+//     });
+</script>
+{% endblock %}
